@@ -7,7 +7,7 @@ int getCharIndex(char c){
     int idx = -1;
     if (c >= 'a' && c <= 'z'){
         idx = c - 'a';
-    } else if (c >= 'A' && c <= 'Z') {
+    } else if (c >= 'A' && c <= 'Z'){
         idx = c - 'A';
     }
     return idx;
@@ -23,67 +23,20 @@ void countFrequency(const string & str, int *frequency){
     }
 }
 
-bool isPermutationOfPallindrome1(const string & str){
+bool isPermutationOfPallindrome(const string & str){
     int frequency[26] = { 0 };
     countFrequency(str, frequency);
 
-    bool oddAppeared = false;
+    bool oddFound = false;
     for (int i = 0; i < 26; i++){
-        if ( frequency[i] % 2 && oddAppeared) {
+        if (frequency[i] % 2 && oddFound){
             return false;
-        } else if (frequency[i] % 2 && !oddAppeared){
-            oddAppeared = true;
+        } else if (frequency[i] % 2 && !oddFound){
+            oddFound = true;
         }
     }
     return true;
 }
-
-bool isPermutationOfPallindrome2(const string & str){
-    int oddCount = 0;
-    int frequency[26] = { 0 };
-    int idx = 0;
-    for (const char & c : str){
-        idx = getCharIndex(c);
-        if (idx != -1){
-            ++frequency[idx];
-            if (frequency[idx] % 2){
-                ++oddCount;
-            } else {
-                --oddCount;
-            }
-        }
-    }
-    return (oddCount <= 1);
-}
-
-int toggle(int bitVector, int index){
-    if (index < 0)
-        return bitVector;
-
-    int mask = 1 << index;
-    return bitVector ^ mask;
-}
-
-bool isExactlyOneBitSet(int bitVector){
-    return ((bitVector & (bitVector - 1)) == 0);
-}
-
-bool isPermutationOfPallindrome3(const string & str){
-    int bitVector = 0;
-    int id = 0;
-    for (const char & c : str){
-        id = getCharIndex(c);
-        bitVector = toggle (bitVector, id);
-    }
-    return (bitVector == 0 || isExactlyOneBitSet(bitVector));
-}
-
-#define TEST(pFunc, pattern)                                        \
-    do {                                                            \
-        cout<<"[" #pFunc "]" <<endl;                                \
-        cout<<"- Pattern: "<<pattern<<endl;                         \
-        cout<<"- Result : "<<pFunc(pattern)<<endl;                  \
-    } while (0)
 
 int main()
 {
@@ -99,9 +52,8 @@ int main()
         };
     for (auto& pattern : patterns)
     {
-        TEST(isPermutationOfPallindrome1, pattern);
-        TEST(isPermutationOfPallindrome2, pattern);
-        TEST(isPermutationOfPallindrome3, pattern);
+        cout<<"[Sample:]"<<pattern<<endl;
+        cout<<isPermutationOfPallindrome(pattern)<<endl;
     }
     return 0;
 }
