@@ -1,0 +1,18 @@
+version: '3.5'
+services:
+  terminalserver:
+    build: ./
+    image: terminalserver
+    #image: zhaojohn96/terminalserver
+    container_name: terminal
+    hostname: terminalserver
+    restart: always
+    shm_size: 2g
+    ports:
+      - "2222:22"
+      - "8001:80"
+    volumes:
+      - ./home:/home
+
+volumes:
+  home:

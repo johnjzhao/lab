@@ -1,0 +1,3 @@
+#!/bin/sh
+g++ -std=c++11 solution.cpp -o solution && ./solution
+rm -f ./solution
