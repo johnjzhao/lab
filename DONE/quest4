@@ -1,0 +1,31 @@
+from datetime import datetime
+def solution(S):
+    # Implement your solution here
+    exts = []
+    cities = []
+    dates = []
+    separatedByCommas = S.split(",")
+    for s in separatedByCommas:
+        ext = parseExtension(s) 
+        if ext != None:
+            exts.append(ext)
+        if ".jpg" not in s and ".png" not in s and ".jpeg" not in s and "-" not in s:
+            cities.append(s)
+        if "-" in s:
+            dates.append(s.partition("\n")[0])
+    citydate = [c + d for c, d in zip(cities, dates)]
+    dates.sort(key=lambda date: datetime.strptime(date, " %Y-%m-%d %H:%M:%S"))
+    numDates = []
+    for c in citydate:
+        numDates.append("0" + str(1 + [idx for idx, d in enumerate(dates) if d in c][0]))
+    citynum = [c + n for c, n in zip(cities, numDates)]
+    res = [c + e for c, e in zip(citynum, exts)]
+    return '\n'.join(str(x) for x in res).strip()
+
+def parseExtension(string):
+    if ".jpg" in string:
+        return ".jpg"
+    elif ".png" in string:
+        return ".png"
+    elif ".jpeg" in string:
+        return ".jpeg"
