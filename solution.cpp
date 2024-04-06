@@ -1,58 +1,73 @@
 #include<iostream>
-#include<vector>
 
 using namespace std;
 
-int getCharIndex(char c){
-    int idx = -1;
-    if (c >= 'a' && c <= 'z'){
-        idx = c - 'a';
-    } else if (c >= 'A' && c <= 'Z'){
-        idx = c - 'A';
-    }
-    return idx;
-}
-
-void countFrequency(const string & str, int *frequency){
-    int idx;
-    for (const char & c : str){
-        idx = getCharIndex(c);
-        if (idx != -1)
-            ++frequency[idx];
-    }
-}
-
-bool isPermutationOfPallindrome(const string & str){
-    int frequency[26] = { 0 };
-    countFrequency(str, frequency);
-
-    bool oddAppeared = false;
-    for (int i = 0; i < 26; i++){
-        if ( frequency[i] % 2 && oddAppeared) {
-            return false;
-        } else if (frequency[i] % 2 && !oddAppeared){
-            oddAppeared = true;
+void helper_transpose(int **matrix, int N){
+    for (int i = 0; i < N; i++){
+        for (int j = i+1; j < N; j++){
+            if (i != j){
+                seap(matrix[i][j], matrix[j][i]);
+            }
         }
     }
-    return true;
 }
 
-int main()
-{
-    vector<string> patterns{
-        "",
-        "a",
-        "ab",
-        "Tact Coa",
-        "A big Cat",
-        "Aba cbc",
-        "Rats live on no evil st",
-        "Rats live on no evil star"
-        };
-    for (auto& pattern : patterns)
-    {
-        cout<<"[Sample:]"<<pattern<<endl;
-        cout<<isPermutationOfPallindrome(pattern)<<endl;
+void helper_reverse(int * row, int N){
+    for (int i = 0; i < N/2; i++){
+        swap(row[i], row[N-i-1]);
     }
+}
+
+void rotate1(int ** matrix, int N){
+    helper_transpose(matrix, N);
+    for (int i = 0; i < N; i++){
+        helper_reverse(matrix[i], N);
+    }
+}
+
+void rotate2(int ** matrix, int N){
+    for (int i = 0; i < N/2; i++){
+        for (int j = i; j < N-i-1; j++){
+            int temp = matrix[j][N-i-1];
+            matrix[i][j] = matrix[j][N-i-1];
+            matrix[j][N-i-1] = matrix[N-i-1][N-j-1];
+            matrix[N-i-1][N-j-1] = matrix[N-j-1][i];
+            matrix[N-j-1][i] = temp;
+        }
+    }
+}
+
+void printMatrix(int ** matrix, int N){
+    for (int i = 0; i < N; i++){
+        for (int j =  0; j < N; j++){
+            cout << matrix[i][j] << " ";
+        }
+        cout << endl;
+    }
+}
+
+int main() {
+    int N;
+    cout << "Enter N for NxN matrix:";
+    cin >> N;
+    int ** matrix = new int*[N];
+    for ( int i = 0; i < N; ++i ) {
+        matrix[i] = new int[N];
+    }
+
+    for ( int i = 0; i < N; ++i) {
+        for ( int j = 0; j < N; ++j ) {
+            cin >> matrix[i][j];
+        }
+    }
+
+    cout << "Rotated matrix by 90 (clockwise):\n";
+    rotate1(matrix, N);
+    printMatrix(matrix, N);
+
+    cout << "Rotated matrix again by 90(anticlockwise):\n";
+    rotate2(matrix, N);
+    printMatrix(matrix, N);
     return 0;
 }
+

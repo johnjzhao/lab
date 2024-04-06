@@ -3,16 +3,25 @@ services:
   terminalserver:
     build: ./
     image: terminalserver
-    #image: zhaojohn96/terminalserver
     container_name: terminal
-    hostname: terminalserver
+    hostname: terminsvr
     restart: always
     shm_size: 2g
+    env_file:
+      - .env
     ports:
       - "2222:22"
       - "8001:80"
     volumes:
       - ./home:/home
+      - sshfs:/home/work
 
 volumes:
   home:
+  sshfs:
+    driver: vieux/sshfs:latest
+    driver_opts:
+      sshcmd: "${SSHFS}"
+      password: "${MYPASS}"
+      allow_other: ""
+
