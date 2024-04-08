@@ -6,7 +6,7 @@ void helper_transpose(int **matrix, int N){
     for (int i = 0; i < N; i++){
         for (int j = i+1; j < N; j++){
             if (i != j){
-                seap(matrix[i][j], matrix[j][i]);
+                swap(matrix[i][j], matrix[j][i]);
             }
         }
     }
@@ -47,9 +47,9 @@ void printMatrix(int ** matrix, int N){
 }
 
 int main() {
-    int N;
     cout << "Enter N for NxN matrix:";
-    cin >> N;
+   // cin >> N;
+    int N = 4;
     int ** matrix = new int*[N];
     for ( int i = 0; i < N; ++i ) {
         matrix[i] = new int[N];
@@ -57,17 +57,21 @@ int main() {
 
     for ( int i = 0; i < N; ++i) {
         for ( int j = 0; j < N; ++j ) {
-            cin >> matrix[i][j];
+            //cin >> matrix[i][j];
         }
     }
-
-    cout << "Rotated matrix by 90 (clockwise):\n";
-    rotate1(matrix, N);
+    int  matrix[i][j] = {{1, 2, 3, 4}, 
+                   {5, 6, 7, 8},
+                   {9, 10, 11, 12},
+                   {13, 14, 15, 16}};
+    
+    //cout << "Rotated matrix by 90 (clockwise):\n";
+   // rotate1(matrix, N);
     printMatrix(matrix, N);
 
-    cout << "Rotated matrix again by 90(anticlockwise):\n";
-    rotate2(matrix, N);
-    printMatrix(matrix, N);
+   // cout << "Rotated matrix again by 90(anticlockwise):\n";
+   // rotate2(matrix, N);
+   // printMatrix(matrix, N);
     return 0;
 }
 
