@@ -1,76 +1,53 @@
 #include<iostream>
+#include<vector>
+#include<sstream>
+#include<algorithm>
 
 using namespace std;
 
-void transpose(int **matrix, int N)
-{
-    for( int i = 0; i < N; ++i ) {
-        for( int j = i+1; j < N; ++j ) {
-            if ( i != j ) {
-                swap(matrix[i][j], matrix[j][i]);
+int countMax(vector<string> upRight) {
+    int rows = 0, cols = 0;
+
+    for (string coord : upRight) {
+        istringstream iss(coord);
+        int r, c;
+        iss >> r >> c;
+        rows = max(rows, r);
+        cols = max(cols, c);
+    }
+
+    vector<vector<int>> grid(rows + 1, vector<int>(cols + 1, 0));
+
+    for (string coord : upRight) {
+        istringstream iss(coord);
+        int r, c;
+        iss >> r >> c;
+        for (int i = 1; i <= r; i++) {
+            for (int j = 1; j <= c; j++) {
+                grid[i][j] += 1;
+               // cout<<grid[i][j]<<"\t";
             }
+            //cout<<endl;
         }
+        //cout<<endl;
     }
-}
 
-void reverse( int * row, int N ) {
-    for ( int i = 0; i < N/2; ++i ) {
-        swap(row[i], row[N-i-1]);
+    int max_elem = 0;
+    for (vector<int> row : grid) {
+        max_elem = *max_element(row.begin(), row.end());
     }
-}
 
-void rotate1(int ** matrix, int N) {
-    //transpose matrix
-    transpose(matrix, N);
-    // reverse each row
-    for ( int i = 0; i < N; ++i ) {
-        reverse(matrix[i], N);
+    int count_max = 0;
+    for (vector<int> row : grid) {
+        count_max = count(row.begin(), row.end(), max_elem);
     }
-}
 
-void rotate2( int ** matrix, int N ) {
-    for( int i = 0; i < N/2; ++i ) {
-        for( int j = i; j < N-i-1; ++j ) {
-                int temp = matrix[i][j];
-                matrix[i][j] = matrix[j][N-i-1];
-                matrix[j][N-i-1] = matrix[N-i-1][N-j-1];
-                matrix[N-i-1][N-j-1]= matrix[N-j-1][i];
-                matrix[N-j-1][i] = temp;
-        }
-    }
-}
-
-void printMatrix( int ** matrix, int N) {
-    for ( int i = 0; i < N; ++i ) {
-        for( int j = 0; j < N; ++j ) {
-            cout << matrix[i][j] << "\t";
-        }
-        cout << endl;
-    }
+    return count_max;
 }
 
 int main() {
-    int N;
-    cout << "Enter N for NxN matrix:";
-    cin >> N;
-    int ** matrix = new int*[N];
-    for ( int i = 0; i < N; ++i ) {
-        matrix[i] = new int[N];
-    }
-
-    for ( int i = 0; i < N; ++i) {
-        for ( int j = 0; j < N; ++j ) {
-            cout<<"\nArr["<<i<<"]["<<j<<"]=  ";
-            cin >> matrix[i][j];
-        }
-    }
-
-    cout << "Rotated matrix by 90 (clockwise):\n";
-    rotate1(matrix, N);
-    printMatrix(matrix, N);
-
-    cout << "Rotated matrix again by 90(anticlockwise):\n";
-    rotate2(matrix, N);
-    printMatrix(matrix, N);
+    vector<string> upRight = {"1 4", "2 3", "4 1"};
+    int result = countMax(upRight);
+    cout << result << endl;
     return 0;
 }

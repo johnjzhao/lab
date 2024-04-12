@@ -1,70 +1,35 @@
-#!/bin/python3
-import re
-import sys
+def two_dimensions(coordinates, n):
+    max_and_count = []
+    grid = [[0 for _ in range(n)] for _ in range(n)]
+    arr_length = len(coordinates)
+    max_val = float('-inf')
+    count = 1
 
-def text_lines():
-    c = open('test-input-01.txt', 'r')
-    list_of_lines = c.readlines()
-    c.close()
-    number = 1
-    numbered_list_of_lines = []
-    for i in list_of_lines:
-        numbered_lines = "{0:0>2}".format(number) + ", " + i
-        numbered_list_of_lines.append(numbered_lines)
-        number += 1
-    f = open("numerated_text.txt", "w")
-    for i in numbered_list_of_lines:
-        f.write(i)
-    f.close()
-    with  open("numerated_text.txt", "r") as file:
-        filedata = file.read()
+    for i in range(arr_length):
+        coors = coordinates[i].split()
+        row = int(coors[0])
+        column = int(coors[1])
 
-    filedata = filedata.replace('.', ',.')
-    with  open("numerated_text.txt", "w") as file:
-         file.write(filedata)
+        for j in range(row):
+            for k in range(column):
+                grid[j][k] += 1
+                print(f"grid ({j},{k}): {grid[j][k]}")
 
+                if not (j == 0 and k == 0) and grid[j][k] > max_val:
+                    max_val = grid[j][k]
+                    count = 1
+                elif grid[j][k] == max_val:
+                    count += 1
 
-def sort_lines(line):
-    line_fields = line.strip().split(',') 
-    amount = str(line_fields[4]) 
-    return amount 
+    max_and_count.append(max_val)
+    max_and_count.append(count)
 
-with  open("numerated_text.txt", "r") as f:
+    return max_and_count
 
-#f = open('numerated_text.txt') 
-    contents = f.readlines() 
-    contents.sort(key=sort_lines) 
-    filedata = str(contents)
-#f.close() 
-with  open("sorted_text.txt", "w") as file:
-    for i in contents:
-        file.write(i)
-  
-  
-def ord_lines():
-    fp = open('sorted_text.txt')
-    data = fp.readlines()
-    fix_line = []
-    for line in data:
-        line_fields = line.strip().split(',')
-        timestm = str(line_fields[4])
-        citi = str(line_fields[3])
-        photo = str(line_fields[2])
-        num = str(line_fields[0])
-        #fix_line.append(timestm)
-        fix_line.append(citi)
-        fix_line.append(',')
-        fix_line.append(photo)
-        fix_line.append(',')
-        fix_line.append(num)
-        fix_line.append('\n')
-        #print(citi,photo,num)
-    #print(fix_line)
-    with  open("sorted_text.txt", "w") as file:
-        for i in fix_line:
-            file.write(i)
-    fp.close()
+def main():
+    coordinates = ["1 4", "2 3", "4 1"]
+    print(f"The Max and count Are: {two_dimensions(coordinates, 8)}")
 
-text_lines()
-ord_lines()
-#sort_lines()
+if __name__ == "__main__":
+    main()
+

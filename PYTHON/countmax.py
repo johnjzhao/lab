@@ -9,7 +9,6 @@ def countMax(upRight):
 
     # Create the grid and fill it with zeros
     grid = [[0] * (cols + 1) for _ in range(rows + 1)]
-    print (grid)
 
     # Update the grid based on the coordinates
     for coord in upRight:
@@ -17,7 +16,7 @@ def countMax(upRight):
         for i in range(1, r + 1):
             for j in range(1, c + 1):
                 grid[i][j] += 1
-
+    print (grid)
     # Find the maximal element in the grid
     max_element = max(max(row) for row in grid)
 
@@ -27,7 +26,8 @@ def countMax(upRight):
     return count_max
 
 # Sample Input
-upRight = ["3 2", "3 7", "4 1"]
+upRight = ["2 3"]
+#upRight = ["1 4", "2 3", "4 1"]
 
 # Sample Output
 result = countMax(upRight)

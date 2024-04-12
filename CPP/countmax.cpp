@@ -1,43 +1,45 @@
-#include <iostream>
-#include <vector>
-#include <sstream>
-#include <algorithm>
+#include<iostream>
+#include<vector>
+#include<sstream>
+#include<algorithm>
 
 using namespace std;
 
 int countMax(vector<string> upRight) {
     int rows = 0, cols = 0;
 
-    // Process each coordinate and determine the final size of the grid
-    for (const auto& coord : upRight) {
+    for (string coord : upRight) {
+        istringstream iss(coord);
         int r, c;
-        stringstream ss(coord);
-        ss >> r >> c;
+        iss >> r >> c;
         rows = max(rows, r);
         cols = max(cols, c);
     }
 
-    // Create the grid and fill it with zeros
     vector<vector<int>> grid(rows + 1, vector<int>(cols + 1, 0));
-    cout<<grid<<endl;
 
-    // Update the grid based on the coordinates
-    for (const auto& coord : upRight) {
+    for (string coord : upRight) {
+        istringstream iss(coord);
         int r, c;
-        stringstream ss(coord);
-        ss >> r >> c;
+        iss >> r >> c;
         for (int i = 1; i <= r; i++) {
             for (int j = 1; j <= c; j++) {
-                grid[i][j]++;
+                grid[i][j] += 1;
+               // cout<<grid[i][j]<<"\t";
             }
+            //cout<<endl;
         }
+        //cout<<endl;
     }
 
-    // Find the maximal element in the grid
-    int max_ele = *max_element(grid[0].begin(), grid[0].end());
+    int max_elem = 0;
+    for (vector<int> row : grid) {
+        max_elem = *max_element(row.begin(), row.end());
+    }
+
     int count_max = 0;
-    for (const auto& row : grid) {
-        count_max += count(row.begin(), row.end(), max_ele);
+    for (vector<int> row : grid) {
+        count_max = count(row.begin(), row.end(), max_elem);
     }
 
     return count_max;
@@ -49,4 +51,3 @@ int main() {
     cout << result << endl;
     return 0;
 }
-
