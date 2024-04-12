@@ -34,19 +34,25 @@ long countMax(vector<string> upRight) {
 
     int max_elem = 0;
     int my_elem = 0;
-    int count_max = 0;
     for (vector<int> row : grid) {
         my_elem = *max_element(row.begin(), row.end());
         if (my_elem > max_elem)
             max_elem = my_elem;
     }
+    cout<<"Max Elements: "<<max_elem<<endl;
 
-    return max_elem;
+    int count_max = 0;
+    for (vector<int> row : grid) {
+        count_max += count(row.begin(), row.end(), max_elem);
+    }
+
+
+    return count_max;
 }
 
 int main() {
-    vector<string> upRight = {"1 4", "2 3", "4 1", "5 6"};
+    vector<string> upRight = {"1 4", "2 3", "4 1"};
     int result = countMax(upRight);
-    cout << result << endl;
+    cout <<"Count Occurences: "<< result << endl;
     return 0;
 }
