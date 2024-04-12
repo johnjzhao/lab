@@ -5,7 +5,7 @@
 
 using namespace std;
 
-int countMax(vector<string> upRight) {
+long countMax(vector<string> upRight) {
     int rows = 0, cols = 0;
 
     for (string coord : upRight) {
@@ -25,7 +25,7 @@ int countMax(vector<string> upRight) {
         for (int i = 1; i <= r; i++) {
             for (int j = 1; j <= c; j++) {
                 grid[i][j] += 1;
-               // cout<<grid[i][j]<<"\t";
+                //cout<<grid[i][j]<<"\t";
             }
             //cout<<endl;
         }
@@ -33,20 +33,19 @@ int countMax(vector<string> upRight) {
     }
 
     int max_elem = 0;
-    for (vector<int> row : grid) {
-        max_elem = *max_element(row.begin(), row.end());
-    }
-
+    int my_elem = 0;
     int count_max = 0;
     for (vector<int> row : grid) {
-        count_max = count(row.begin(), row.end(), max_elem);
+        my_elem = *max_element(row.begin(), row.end());
+        if (my_elem > max_elem)
+            max_elem = my_elem;
     }
 
-    return count_max;
+    return max_elem;
 }
 
 int main() {
-    vector<string> upRight = {"1 4", "2 3", "4 1"};
+    vector<string> upRight = {"1 4", "2 3", "4 1", "5 6"};
     int result = countMax(upRight);
     cout << result << endl;
     return 0;
