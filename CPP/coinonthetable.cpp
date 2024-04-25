@@ -11,7 +11,7 @@ inline int fourMin(int a, int b, int c, int d){
     return min(a, min(b, min(c, d)));
 }
 
-void  CoinontheTable(int m, int k, vector<string> board){
+void  coinOnTheTable(int m, int k, vector<string> board){
 
     vector<vector<vector<int>>>
         tbl(n, vector<vector<int>>(m, vector<int>(k+1, -1)));
@@ -74,7 +74,7 @@ int main(){
         cin >> board[i];
     }
 
-    CoinontheTable(m, k, board);
+    coinOnTheTable(m, k, board);
 
     return 0;
 }

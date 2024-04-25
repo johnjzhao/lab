@@ -1,35 +1,18 @@
-def two_dimensions(coordinates, n):
-    max_and_count = []
-    grid = [[0 for _ in range(n)] for _ in range(n)]
-    arr_length = len(coordinates)
-    max_val = float('-inf')
-    count = 1
+from typing import List
 
-    for i in range(arr_length):
-        coors = coordinates[i].split()
-        row = int(coors[0])
-        column = int(coors[1])
+def priceCheck(products: List[str], productPrices: List[float], productSold: List[str], soldPrice: List[float]) -> int:
+    errors = 0
 
-        for j in range(row):
-            for k in range(column):
-                grid[j][k] += 1
-                print(f"grid ({j},{k}): {grid[j][k]}")
+    for i in range(len(productSold)):
+        if productPrices[products.index(productSold[i])] != soldPrice[i]:
+            errors += 1
 
-                if not (j == 0 and k == 0) and grid[j][k] > max_val:
-                    max_val = grid[j][k]
-                    count = 1
-                elif grid[j][k] == max_val:
-                    count += 1
+    return errors
 
-    max_and_count.append(max_val)
-    max_and_count.append(count)
+products = ["eggs", "milk", "cheese"]
+productPrices = [2.89, 3.29, 5.79]
+productSold = ["eggs", "eggs", "cheese", "milk"]
+soldPrice = [2.89, 2.99, 5.97, 3.29]
 
-    return max_and_count
-
-def main():
-    coordinates = ["1 4", "2 3", "4 1"]
-    print(f"The Max and count Are: {two_dimensions(coordinates, 8)}")
-
-if __name__ == "__main__":
-    main()
-
+errorCount = priceCheck(products, productPrices, productSold, soldPrice)
+print("Number of errors:", errorCount)
