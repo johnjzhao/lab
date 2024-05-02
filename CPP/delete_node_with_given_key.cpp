@@ -7,18 +7,18 @@ struct node{
     struct node *next;
 };
 
-void push(struct node** head_ref, int new_data){
+void push(struct node** head, int new_data){
     struct node* new_node = (struct node*) malloc(sizeof(struct node));
     new_node->data = new_data;
-    new_node->next = (*head_ref);
-    (*head_ref) = new_node;
+    new_node->next = (*head);
+    (*head) = new_node;
 }
 
-void deleteNode(struct node **head_ref, int key){
-    struct node* temp = *head_ref, *prev;
+void deleteNode(struct node **head, int key){
+    struct node* temp = *head, *prev;
 
     if (temp != NULL && temp->data == key){
-        *head_ref = temp->next;
+        *head = temp->next;
         free(temp);
         return;
     }
@@ -35,7 +35,7 @@ void deleteNode(struct node **head_ref, int key){
     free(temp);
 }
 
-void printList(struct node *node){
+void printNode(struct node *node){
     while (node != NULL){
         cout << node->data << " ";
         node = node->next;
@@ -54,10 +54,10 @@ int main(){
     push(&head, 2);
 
     puts("Created Linked List: ");
-    printList(head);
+    printNode(head);
     deleteNode(&head, 15);
     puts("\nLinked List after Deletion position of 15: ");
-    printList(head);
+    printNode(head);
     puts("\n");
     return 0;
 }
