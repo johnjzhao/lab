@@ -1,1 +1,0 @@
-SELECT count(*) FROM <database>.LANG_DIM_T13 ldt 

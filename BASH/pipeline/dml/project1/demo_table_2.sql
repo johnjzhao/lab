@@ -1,1 +1,0 @@
-SELECT * FROM <database>.DEMO_TBL2 
