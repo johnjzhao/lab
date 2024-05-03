@@ -1,0 +1,40 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: %JOB_NAME%
+  namespace: tdv
+spec:
+  backoffLimit: 0
+  ttlSecondsAfterFinished: 86400
+  template:
+    metadata:
+      labels:
+        app: tdv-unittesting-app
+        name: %JOB_NAME%
+    spec:
+      containers:
+      - name: behave
+        image: %AWS_FED_ACCOUNT%.dkr.ecr.us-east-1.amazonaws.com/dna-ad/%ECR_TDV_UNITTESTING%:%IMAGE_TAG%
+        command: ['/bin/bash']
+        args: ["-c", "behave ./tests/features; output=$?; echo 'behave exit code:'; echo $output; exit $output;"]
+        imagePullPolicy: Always
+        volumeMounts:
+        - mountPath: /data
+          name: data
+        env:
+        # - name: ENV
+        #   value: DEV
+        - name: TDV_UNITTEST_USR
+          valueFrom:
+            secretKeyRef:
+              key: TDV_UNITTEST_USR
+              name: tdv-unittest-usr
+        - name: TDV_UNITTEST_PSW
+          valueFrom:
+            secretKeyRef:
+              key: TDV_UNITTEST_PSW
+              name: tdv-unittest-psw
+      restartPolicy: Never
+      volumes:
+        - name: data
+          emptyDir: {}
