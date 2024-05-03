@@ -2,62 +2,94 @@
 
 using namespace std;
 
-struct node{
-    int data;
-    struct node *next;
-};
+LinkedListNode* deep_copy_arbitrary_pointer(
+    LinkedListNode* head) {
 
-void push(struct node** head, int new_data){
-    struct node* new_node = (struct node*) malloc(sizeof(struct node));
-    new_node->data = new_data;
-    new_node->next = (*head);
-    (*head) = new_node;
-}
+  if (head == nullptr) {
+    return nullptr;
+  }
 
-void deleteNode(struct node **head, int key){
-    struct node* temp = *head, *prev;
+  LinkedListNode* current = head;
+  LinkedListNode* new_head = nullptr;
+  LinkedListNode* new_prev = nullptr;
+  unordered_map<LinkedListNode*, LinkedListNode*> map;
 
-    if (temp != NULL && temp->data == key){
-        *head = temp->next;
-        free(temp);
-        return;
+  // create copy of the linked list, recording the corresponding
+  // nodes in hashmap without updating arbitrary pointer
+  while (current != nullptr) {
+    LinkedListNode* new_node = 
+      new LinkedListNode(current->data);
+
+    // copy the old arbitrary pointer in the new node
+    new_node->arbitrary_pointer = current->arbitrary_pointer;
+
+    if (new_prev != nullptr) {
+      new_prev->next = new_node;
+    }
+    else {
+      new_head = new_node;
     }
 
-    while (temp != NULL && temp->data != key){
-        prev = temp;
-        temp = temp->next;
+    map[current] = new_node;
+
+    new_prev = new_node;
+    current = current->next;
+  }
+
+  LinkedListNode* new_current = new_head;
+
+  // updating arbitrary_pointer
+  while (new_current != nullptr) {
+    if (new_current->arbitrary_pointer != nullptr) {
+      LinkedListNode* node = 
+        map[new_current->arbitrary_pointer];
+      new_current->arbitrary_pointer = node;
     }
 
-    if (temp == NULL) return;
+    new_current = new_current->next;
+  }
 
-    prev->next = temp->next;
-
-    free(temp);
+  return new_head;
 }
 
-void printNode(struct node *node){
-    while (node != NULL){
-        cout << node->data << " ";
-        node = node->next;
+LinkedListNode* create_linked_list_with_arb_pointers(int length) {
+  LinkedListNode* head = LinkedList::create_random_list(length);
+  vector<LinkedListNode*> v;
+  LinkedListNode* temp = head;
+  while (temp) {
+    v.push_back(temp);
+    temp = temp->next;
+  }
+
+  for (size_t i = 0; i < v.size(); ++i) {
+    int j = rand() % v.size();
+    int p = rand() % 100;
+    if ( p < 75) {
+      v[i]->arbitrary_pointer = v[j];
     }
+  }
+
+  return head;
 }
 
-int main(){
+void print_with_arb_pointers(LinkedListNode* head) {
+  while (head != nullptr) {
+    cout << head->data << " (";
+    if (head->arbitrary_pointer)
+      cout << head->arbitrary_pointer->data;
+    cout << "), ";
+    head = head->next;
+  }
+  cout << endl;
+}
 
-    struct node* head = NULL;
+// Test Program.
+int main() {
+  LinkedListNode* head = create_linked_list_with_arb_pointers(15);
+  print_with_arb_pointers(head);
 
-    push(&head, 7);
-    push(&head, 10);
-    push(&head, 15);
-    push(&head, 1);
-    push(&head, 3);
-    push(&head, 2);
+  LinkedListNode* head2 = deep_copy_arbitrary_pointer(head);
+  print_with_arb_pointers(head2);
 
-    puts("Created Linked List: ");
-    printNode(head);
-    deleteNode(&head, 15);
-    puts("\nLinked List after Deletion position of 15: ");
-    printNode(head);
-    puts("\n");
-    return 0;
+  return 0;
 }

@@ -14,32 +14,28 @@ void push(struct node** head, int new_data){
     (*head) = new_node;
 }
 
-void deleteNode(struct node **head, int key){
+void printNode(struct node* node){
+    while (node != NULL){
+        cout << node->data << " ";
+        node = node->next;
+    }
+}
+
+void deleteNode(struct node** head, int key){
     struct node* temp = *head, *prev;
 
+    if (temp == NULL) return;
     if (temp != NULL && temp->data == key){
         *head = temp->next;
         free(temp);
         return;
     }
-
     while (temp != NULL && temp->data != key){
         prev = temp;
         temp = temp->next;
     }
-
-    if (temp == NULL) return;
-
     prev->next = temp->next;
-
     free(temp);
-}
-
-void printNode(struct node *node){
-    while (node != NULL){
-        cout << node->data << " ";
-        node = node->next;
-    }
 }
 
 int main(){
