@@ -1,6 +1,6 @@
 --liquibase formatted sql
 
---changeset david.mahler:svt_autochg_tdv_dev.tables.dm_demo_tbl1_1 runOnChange:true labels:tmp,demo,dmahler context:dev
+--changeset john.zhao:svt_autochg_tdv_dev.tables.dm_demo_tbl1_1 runOnChange:true labels:tmp,demo,dmahler context:dev
 --comment: Create table HSETL_WORK_DEV2.DM_DEMO_TBL1
 SELECT 1 
 FROM DBC.TABLES 

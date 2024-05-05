@@ -1,7 +1,7 @@
 --liquibase formatted sql
 
 
---changeset rama.lingamgunta:svt_autochg_tdv_dev.tables.demo_tbl2_bkp labels:tmp,demo context:dev
+--changeset john.zhao:svt_autochg_tdv_dev.tables.demo_tbl2_bkp labels:tmp,demo context:dev
 --comment: Create table HSETL_WORK_DEV2.DEMO_TBL2_BKP
 
 CREATE SET TABLE HSETL_WORK_DEV2.DEMO_TBL2_BKP (
@@ -14,7 +14,7 @@ CRET_BY VARCHAR(1000),
 ACT_IND CHAR(1) NOT NULL
 );
 
---changeset rama.lingamgunta:svt_autochg_tdv_dev.tables.demo_tbl2_bkp labels:tmp,demo context:dev
+--changeset john.zhao:svt_autochg_tdv_dev.tables.demo_tbl2_bkp labels:tmp,demo context:dev
 --comment: Create table HSETL_WORK_DEV2.demo_tbl2_bkp
 
 CREATE SET TABLE HSETL_WORK_DEV2.DEMO_TBL2 (

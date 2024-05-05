@@ -1,7 +1,7 @@
 --liquibase formatted sql
 
 
---changeset david.mahler:svt_autochg_tdv_dev.tables.DEMO_TBL1_BKP labels:tmp,demo context:dev
+--changeset john.zhao:svt_autochg_tdv_dev.tables.DEMO_TBL1_BKP labels:tmp,demo context:dev
 --comment: Create table HSETL_WORK_DEV2.DEMO_TBL1_BKP
 
 CREATE SET TABLE HSETL_WORK_DEV2.DEMO_TBL (
