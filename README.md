@@ -36,4 +36,14 @@ Binary Tree Map:
   / \     / \
  2   6   9  11
 
-itsupp@terminsvr:~/lab$
+```Manage Kubernetes Cluster: 
+
+johnz@terminsvr:~$ k get nodes -A
+NAME                   STATUS   ROLES           AGE    VERSION
+gataway.sunvalle.net   Ready    <none>          253d   v1.28.1
+master.sunvalle.net    Ready    control-plane   259d   v1.28.1
+space.sunvalle.net     Ready    <none>          37d    v1.28.8
+worker1.sunvalle.net   Ready    <none>          259d   v1.28.1
+worker2.sunvalle.net   Ready    <none>          259d   v1.28.1
+
+
